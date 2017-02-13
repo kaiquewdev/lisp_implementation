@@ -10,6 +10,9 @@ DEFAULT_PRECEDENCE_KIND_RULESET = 'rule'
 DEFAULT_OPERATION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
 
+class Scope(object):
+    pass
+
 class ContextualToken(object):
     def __init__(self):
         self.key_name = 'token'
@@ -27,6 +30,13 @@ class RootScope(object):
 class VarKeyword(object):
     def __init__(self):
         self.assignment_key_name = 'var'
+
+    def __str__(self):
+        return self.assignment_key_name
+
+class LetKeyword(object):
+    def __init__(self):
+        self.assignment_key_name = 'let'
 
     def __str__(self):
         return self.assignment_key_name

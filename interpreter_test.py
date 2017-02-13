@@ -2,11 +2,20 @@
 
 import unittest
 
+from interpreter import Scope
 from interpreter import ContextualToken
 from interpreter import RootScope
 from interpreter import VarKeyword
+from interpreter import LetKeyword
 from interpreter import Variable
 from interpreter import Grammar
+
+class ScopeTest(unittest.TestCase):
+    def setUp(self):
+        self.scope = Scope()
+
+    def test_scope_instantiation(self):
+        self.assertEqual(self.scope.__class__,Scope)
 
 class ContextualTokenTest(unittest.TestCase):
     def setUp(self):
@@ -32,14 +41,25 @@ class RootScopeTest(unittest.TestCase):
 
 class VarKeywordTest(unittest.TestCase):
     def setUp(self):
-        self.variable_keyword = VarKeyword()
-        self.variable_keyword_str_expectation = 'var'
+        self.var_keyword = VarKeyword()
+        self.var_keyword_str_expectation = 'var'
 
     def test_variable_keyword_instantiation(self):
-        self.assertEqual(self.variable_keyword.__class__,VarKeyword)
+        self.assertEqual(self.var_keyword.__class__,VarKeyword)
 
     def test_variable_keyword_str(self):
-        self.assertEqual(self.variable_keyword.__str__(),self.variable_keyword_str_expectation)
+        self.assertEqual(self.var_keyword.__str__(),self.var_keyword_str_expectation)
+
+class LetKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.let_keyword = LetKeyword()
+        self.let_keyword_str_expectation = 'let'
+
+    def test_let_keyword_instantiation(self):
+        self.assertEqual(self.let_keyword.__class__,LetKeyword)
+
+    def test_let_keyword_str(self):
+        self.assertEqual(self.let_keyword.__str__(),self.let_keyword_str_expectation)
 
 class VariableTest(unittest.TestCase):
     def setUp(self):
