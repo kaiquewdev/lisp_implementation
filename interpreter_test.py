@@ -26,5 +26,9 @@ class GrammarTest(unittest.TestCase):
     def test_grammar_precedence_rule(self):
         self.assertEqual(self.gr.precedence('rule'),'HIGH_ORDER_OPERATION')
 
+    def test_grammar_operation_token(self):
+        self.assertEqual(self.gr.operation('token','sum'),'+')
+        self.assertEqual(self.gr.operation('rule','sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
