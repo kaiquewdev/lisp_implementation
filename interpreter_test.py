@@ -4,6 +4,7 @@ import unittest
 
 from interpreter import VARIABLE_RULE_PARAMETER_OP
 from interpreter import PRECEDENCE_RULE_PARAMETER_OP
+from interpreter import SUM_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
@@ -121,14 +122,14 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.variable_definition(),VARIABLE_RULE_PARAMETER_OP)
 
     def test_grammar_precedence_token(self):
-        self.assertEqual(self.gr.precedence(ContextualToken().__str__()),['(',')'])
+        self.assertEqual(self.gr.precedence(self.contextual_token_str),['(',')'])
 
     def test_grammar_precedence_rule(self):
         self.assertEqual(self.gr.precedence(self.contextual_rule_str),PRECEDENCE_RULE_PARAMETER_OP)
 
     def test_grammar_operation_token(self):
         self.assertEqual(self.gr.operation(self.contextual_token_str,'sum'),'+')
-        self.assertEqual(self.gr.operation(self.contextual_rule_str,'sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,'sum'),SUM_OPERATION_PARAMETER_OP)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
