@@ -62,6 +62,13 @@ class LetKeyword(object):
 
     def __str__(self):
         return self.assignment_key_name
+
+class SumKeyword(object):
+    def __init__(self):
+        self.key_name = 'sum'
+
+    def __str__(self):
+        return self.key_name
         
 class Variable(object):
     def __init__(self):

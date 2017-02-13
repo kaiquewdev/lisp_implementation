@@ -14,6 +14,7 @@ from interpreter import RootScope
 from interpreter import NestedScope
 from interpreter import VarKeyword
 from interpreter import LetKeyword
+from interpreter import SumKeyword
 from interpreter import Variable
 from interpreter import Grammar
 
