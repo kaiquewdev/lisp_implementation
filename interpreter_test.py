@@ -87,6 +87,17 @@ class LetKeywordTest(unittest.TestCase):
     def test_let_keyword_str(self):
         self.assertEqual(self.let_keyword.__str__(),self.let_keyword_str_expectation)
 
+class SumKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.sum_keyword = SumKeyword()
+        self.sum_keyword_str_expectation = SumKeyword().__str__()
+
+    def test_sum_keyword_instantiation(self):
+        self.assertEqual(self.sum_keyword.__class__,SumKeyword)
+
+    def test_sum_keyword_str(self):
+        self.assertEqual(self.sum_keyword.__str__(),self.sum_keyword_str_expectation)
+
 class VariableTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token = ContextualToken()
