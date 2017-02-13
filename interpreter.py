@@ -35,21 +35,29 @@ class ContextualRule(object):
     def __str__(self):
         return self.key_name
 
-class RootScope(object):
+class Identifier(object):
+    def __init__(self):
+        self.key_name = None
+
+    def __str__(self):
+        return self.key_name
+
+class Keyword(object):
+    def __init__(self):
+        self.assignment_key_name = None
+
+    def __str__(self):
+        return self.assigment_key_name
+    
+class RootScope(Identifier):
     def __init__(self):
         self.key_name = 'root_scope'
 
-    def __str__(self):
-        return self.key_name
-
-class NestedScope(object):
+class NestedScope(Identifier):
     def __init__(self):
         self.key_name = 'nested_scope'
-
-    def __str__(self):
-        return self.key_name
     
-class VarKeyword(object):
+class VarKeyword(Keyword):
     def __init__(self):
         self.assignment_key_name = 'var'
 
@@ -63,13 +71,10 @@ class LetKeyword(object):
     def __str__(self):
         return self.assignment_key_name
 
-class SumKeyword(object):
+class SumKeyword(Identifier):
     def __init__(self):
         self.key_name = 'sum'
 
-    def __str__(self):
-        return self.key_name
-        
 class Variable(object):
     def __init__(self):
         self._definition = {
