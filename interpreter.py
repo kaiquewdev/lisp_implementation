@@ -10,6 +10,43 @@ DEFAULT_PRECEDENCE_KIND_RULESET = 'rule'
 DEFAULT_OPERATION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
 
+class ContextualToken(object):
+    def __init__(self):
+        self.key_name = 'token'
+
+    def __str__(self):
+        return self.key_name
+
+class RootScope(object):
+    def __init__(self):
+        self.key_name = 'root_scope'
+
+    def __str__(self):
+        return self.key_name
+    
+class VarKeyword(object):
+    def __init__(self):
+        self.assignment_key_name = 'var'
+
+    def __str__(self):
+        return self.assignment_key_name
+        
+class Variable(object):
+    def __init__(self):
+        self._definition = {
+            'token': {
+                'root_scope': VARIABLE_DEFINITION_ROOT_SCOPE,
+                'nested_scope': VARIABLE_DEFINITION_NESTED_SCOPE,
+            },
+            'rule': PRECEDENCE_RULE_PARAMETER_OP,
+        }
+
+    def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
+        if kind == 'token':
+            return self._definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
+        else:
+            return self._definition[kind]
+
 class Grammar(object):
     def __init__(self):
         self._variable_definition = {
