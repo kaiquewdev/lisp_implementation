@@ -8,6 +8,7 @@ from interpreter import SUM_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
+from interpreter import ContextualSumToken
 from interpreter import ContextualRule
 from interpreter import RootScope
 from interpreter import NestedScope
@@ -98,6 +99,13 @@ class VariableTest(unittest.TestCase):
 
     def test_variable_token_root_scope(self):
         self.assertEqual(self.variable.definition(self.contextual_token.__str__(),self.root_scope.__str__()),self.var_keyword.__str__())
+
+class ContextualSumTokenTest(unittest.TestCase):
+    def setUp(self):
+        self.contextual_sum_token = ContextualSumToken()
+
+    def test_contextual_sum_token_instantiation(self):
+        self.assertEqual(self.contextual_sum_token.__class__,ContextualSumToken)
 
 class GrammarTest(unittest.TestCase):
     def setUp(self):
