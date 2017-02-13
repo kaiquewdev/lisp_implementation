@@ -1,14 +1,18 @@
 '''List intepreter'''
 
+# Variable
 VARIABLE_DEFINITION_ROOT_SCOPE = 'var'
 VARIABLE_DEFINITION_NESTED_SCOPE = 'let'
 VARIABLE_RULE_PARAMETER_OP = 'LEFT_HAND_ASSIGNMENT'
-PRECEDENCE_RULE_PARAMETER_OP = 'HIGH_ORDER_OPERATION'
 DEFAULT_VARIABLE_KIND_RULESET = 'rule'
 DEFAULT_VARIABLE_ASSESMENT = 'root_scope'
+# Precedence
+PRECEDENCE_RULE_PARAMETER_OP = 'HIGH_ORDER_OPERATION'
 DEFAULT_PRECEDENCE_KIND_RULESET = 'rule'
 DEFAULT_OPERATION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
+# Operation
+SUM_OPERATION_PARAMETER_OP = 'SUM_ARGUMENTS_OF_THE_FUNCTION'
 
 class Scope(object):
     pass
@@ -89,7 +93,7 @@ class Grammar(object):
                 'sum': '+'
             },
             'rule': {
-                'sum': 'SUM_ARGUMENTS_OF_THE_FUNCTION'
+                'sum': SUM_OPERATION_PARAMETER_OP
             }
         }
 
@@ -101,4 +105,3 @@ class Grammar(object):
 
     def operation(self,kind=DEFAULT_OPERATION_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
         return self._operation_definition[kind][assesment or DEFAULT_OPERATION_ASSESMENT]
-

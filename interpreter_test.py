@@ -102,7 +102,7 @@ class GrammarTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token_str = ContextualToken().__str__()
         self.root_scope_str = RootScope().__str__()
-        self.rule_str = Rule().__str__()
+        self.contextual_rule_str = ContextualRule().__str__()
         self.nested_scope_str = NestedScope().__str__()
         self.let_keyword_str = LetKeyword().__str__()
         self.var_keyword_str = VarKeyword().__str__()
@@ -124,11 +124,11 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.precedence(ContextualToken().__str__()),['(',')'])
 
     def test_grammar_precedence_rule(self):
-        self.assertEqual(self.gr.precedence(self.rule_str),PRECEDENCE_RULE_PARAMETER_OP)
+        self.assertEqual(self.gr.precedence(self.contextual_rule_str),PRECEDENCE_RULE_PARAMETER_OP)
 
     def test_grammar_operation_token(self):
         self.assertEqual(self.gr.operation(self.contextual_token_str,'sum'),'+')
-        self.assertEqual(self.gr.operation(self.rule_str,'sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,'sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
