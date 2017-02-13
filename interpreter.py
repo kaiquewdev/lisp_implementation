@@ -20,9 +20,23 @@ class ContextualToken(object):
     def __str__(self):
         return self.key_name
 
+class ContextualRule(object):
+    def __init__(self):
+        self.key_name = 'rule'
+
+    def __str__(self):
+        return self.key_name
+
 class RootScope(object):
     def __init__(self):
         self.key_name = 'root_scope'
+
+    def __str__(self):
+        return self.key_name
+
+class NestedScope(object):
+    def __init__(self):
+        self.key_name = 'nested_scope'
 
     def __str__(self):
         return self.key_name
@@ -44,15 +58,15 @@ class LetKeyword(object):
 class Variable(object):
     def __init__(self):
         self._definition = {
-            'token': {
-                'root_scope': VARIABLE_DEFINITION_ROOT_SCOPE,
+            ContextualToken().__str__(): {
+                RootScope().__str__(): VARIABLE_DEFINITION_ROOT_SCOPE,
                 'nested_scope': VARIABLE_DEFINITION_NESTED_SCOPE,
             },
-            'rule': PRECEDENCE_RULE_PARAMETER_OP,
+            'rule': VARIABLE_RULE_PARAMETER_OP,
         }
 
     def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
-        if kind == 'token':
+        if kind == ContextualToken().__str__():
             return self._definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
         else:
             return self._definition[kind]
@@ -80,10 +94,11 @@ class Grammar(object):
         }
 
     def variable_definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
-        if kind == 'token':
-            return self._variable_definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
-        else:
-            return self._variable_definition[kind]
+        return Variable().definition(kind,assesment)
+        #if kind == 'token':
+        #    return self._variable_definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
+        #else:
+        #    return self._variable_definition[kind]
 
     def precedence(self,kind=DEFAULT_PRECEDENCE_KIND_RULESET):
         return self._precedence_definition[kind]
