@@ -107,6 +107,9 @@ class ContextualSumTokenTest(unittest.TestCase):
     def test_contextual_sum_token_instantiation(self):
         self.assertEqual(self.contextual_sum_token.__class__,ContextualSumToken)
 
+    def test_contextual_sum_token_str(self):
+        self.assertEqual(self.contextual_sum_token.__str__(),'sum')
+
 class GrammarTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token_str = ContextualToken().__str__()
