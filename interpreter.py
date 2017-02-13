@@ -95,10 +95,6 @@ class Grammar(object):
 
     def variable_definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
         return Variable().definition(kind,assesment)
-        #if kind == 'token':
-        #    return self._variable_definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
-        #else:
-        #    return self._variable_definition[kind]
 
     def precedence(self,kind=DEFAULT_PRECEDENCE_KIND_RULESET):
         return self._precedence_definition[kind]

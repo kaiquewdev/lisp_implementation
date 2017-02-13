@@ -127,8 +127,8 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.precedence(self.rule_str),PRECEDENCE_RULE_PARAMETER_OP)
 
     def test_grammar_operation_token(self):
-        self.assertEqual(self.gr.operation(ContextualToken().__str__(),'sum'),'+')
-        self.assertEqual(self.gr.operation('rule','sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
+        self.assertEqual(self.gr.operation(self.contextual_token_str,'sum'),'+')
+        self.assertEqual(self.gr.operation(self.rule_str,'sum'),'SUM_ARGUMENTS_OF_THE_FUNCTION')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
