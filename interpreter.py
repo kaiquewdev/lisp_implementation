@@ -89,16 +89,20 @@ class SumKeyword(Identifier):
 
 class Variable(object):
     def __init__(self):
+        self._contextual_token_str = ContextualToken().__str__()
+        self._root_scope_str = RootScope().__str__()
+        self._nested_scope_str = NestedScope().__str__()
+        self._rule_str = Rule().__str__()
         self._definition = {
-            ContextualToken().__str__(): {
-                RootScope().__str__(): VARIABLE_DEFINITION_ROOT_SCOPE,
-                NestedScope().__str__(): VARIABLE_DEFINITION_NESTED_SCOPE,
+            self._contextual_token_str: {
+                self._root_scope_str: VARIABLE_DEFINITION_ROOT_SCOPE,
+                self._nested_scope_str: VARIABLE_DEFINITION_NESTED_SCOPE,
             },
-            Rule().__str__(): VARIABLE_RULE_PARAMETER_OP,
+            self._rule_str: VARIABLE_RULE_PARAMETER_OP,
         }
 
     def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
-        if kind == ContextualToken().__str__():
+        if kind == self._contextual_token_str:
             return self._definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
         else:
             return self._definition[kind]
@@ -125,8 +129,8 @@ class Grammar(object):
             }
         }
 
-    def variable_definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
-        return Variable().definition(kind,assesment)
+    def variable_definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE,variable=Variable()):
+        return variable.definition(kind,assesment)
 
     def precedence(self,kind=DEFAULT_PRECEDENCE_KIND_RULESET):
         return self._precedence_definition[kind]
