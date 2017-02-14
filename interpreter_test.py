@@ -6,6 +6,7 @@ from interpreter import VARIABLE_RULE_PARAMETER_OP
 from interpreter import PRECEDENCE_RULE_PARAMETER_OP
 from interpreter import SUM_OPERATION_PARAMETER_OP
 from interpreter import SUB_OPERATION_PARAMETER_OP
+from interpreter import MUL_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
@@ -194,6 +195,7 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.sub_keyword_str),'-')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sub_keyword_str),SUB_OPERATION_PARAMETER_OP)
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.mul_keyword_str),'*')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,self.mul_keyword_str),MUL_OPERATION_PARAMETER_OP)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
