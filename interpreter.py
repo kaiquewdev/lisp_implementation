@@ -143,7 +143,7 @@ class Grammar(object):
             self._rule_str: VARIABLE_RULE_PARAMETER_OP,
         }
         self._precedence_definition = {
-            self._contextual_token_str: ['(',')'],
+            self._contextual_token_str: PARENTHESIS,
             self._rule_str: PRECEDENCE_RULE_PARAMETER_OP,
         }
         self._operation_definition = {
