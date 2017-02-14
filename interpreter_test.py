@@ -15,6 +15,7 @@ from interpreter import NestedScope
 from interpreter import VarKeyword
 from interpreter import LetKeyword
 from interpreter import SumKeyword
+from interpreter import PrecedenceDelimiters
 from interpreter import Variable
 from interpreter import Grammar
 
@@ -121,6 +122,16 @@ class ContextualSumTokenTest(unittest.TestCase):
 
     def test_contextual_sum_token_str(self):
         self.assertEqual(self.contextual_sum_token.__str__(),'sum')
+
+class PrecedenceDelimitersTest(unittest.TestCase):
+    def setUp(self):
+        self.precedence_delimiters = PrecedenceDelimiters()
+
+    def test_precedence_delimiters_instantiation(self):
+        self.assertEqual(self.precedence_delimiters.__class__,PrecedenceDelimiters)
+
+    def test_precedence_delimiters_meta(self):
+        self.assertEqual(self.precedence_delimiters.__meta__(),['(',')'])
 
 class GrammarTest(unittest.TestCase):
     def setUp(self):

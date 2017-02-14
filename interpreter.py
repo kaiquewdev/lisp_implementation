@@ -87,6 +87,13 @@ class SumKeyword(Identifier):
     def __init__(self):
         self.key_name = SUM
 
+class PrecedenceDelimiters(object):
+    def __init__(self):
+        self.assigners = ['(',')']
+
+    def __meta__(self):
+        return self.assigners
+    
 class Variable(object):
     def __init__(self):
         self._contextual_token_str = ContextualToken().__str__()
