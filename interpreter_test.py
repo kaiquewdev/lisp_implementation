@@ -5,16 +5,19 @@ import unittest
 from interpreter import VARIABLE_RULE_PARAMETER_OP
 from interpreter import PRECEDENCE_RULE_PARAMETER_OP
 from interpreter import SUM_OPERATION_PARAMETER_OP
+from interpreter import SUB_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
 from interpreter import ContextualSumToken
+from interpreter import ContextualSubToken
 from interpreter import ContextualRule
 from interpreter import RootScope
 from interpreter import NestedScope
 from interpreter import VarKeyword
 from interpreter import LetKeyword
 from interpreter import SumKeyword
+from interpreter import SubKeyword
 from interpreter import PrecedenceDelimiters
 from interpreter import Variable
 from interpreter import Grammar
@@ -89,6 +92,14 @@ class LetKeywordTest(unittest.TestCase):
     def test_let_keyword_str(self):
         self.assertEqual(self.let_keyword.__str__(),self.let_keyword_str_expectation)
 
+class SubKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.sub_keyword = SubKeyword()
+        self.sub_keyword_str_expectation = SubKeyword().__str__()
+
+    def test_sub_keyword_instantiation(self):
+        self.assertEqual(self.sub_keyword.__class__,SubKeyword)
+
 class SumKeywordTest(unittest.TestCase):
     def setUp(self):
         self.sum_keyword = SumKeyword()
@@ -123,6 +134,16 @@ class ContextualSumTokenTest(unittest.TestCase):
     def test_contextual_sum_token_str(self):
         self.assertEqual(self.contextual_sum_token.__str__(),'sum')
 
+class ContextualSubTokenTest(unittest.TestCase):
+    def setUp(self):
+        self.contextual_sub_token = ContextualSubToken()
+
+    def test_contextual_sub_token_instantiation(self):
+        self.assertEqual(self.contextual_sub_token.__class__,ContextualSubToken)
+
+    def test_contextual_sub_token_str(self):
+        self.assertEqual(self.contextual_sub_token.__str__(),'sub')
+
 class PrecedenceDelimitersTest(unittest.TestCase):
     def setUp(self):
         self.precedence_delimiters = PrecedenceDelimiters()
@@ -138,10 +159,12 @@ class GrammarTest(unittest.TestCase):
         self.contextual_token_str = ContextualToken().__str__()
         self.root_scope_str = RootScope().__str__()
         self.contextual_rule_str = ContextualRule().__str__()
+        self.contextual_sub_token_str = ContextualSubToken().__str__()
         self.nested_scope_str = NestedScope().__str__()
         self.let_keyword_str = LetKeyword().__str__()
         self.var_keyword_str = VarKeyword().__str__()
         self.sum_keyword_str = SumKeyword().__str__()
+        self.sub_keyword_str = SubKeyword().__str__()
         self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
@@ -166,6 +189,8 @@ class GrammarTest(unittest.TestCase):
     def test_grammar_operation_token(self):
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.sum_keyword_str),'+')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sum_keyword_str),SUM_OPERATION_PARAMETER_OP)
+        self.assertEqual(self.gr.operation(self.contextual_token_str,self.sub_keyword_str),'-')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sub_keyword_str),SUB_OPERATION_PARAMETER_OP)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

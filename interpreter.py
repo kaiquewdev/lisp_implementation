@@ -3,11 +3,15 @@
 # Essential Representations
 TOKEN = 'token'
 SUM = 'sum'
+SUB = 'sub'
 RULE = 'rule'
 ROOT_SCOPE = 'root_scope'
 NESTED_SCOPE = 'nested_scope'
 VAR = 'var'
 LET = 'let'
+PLUS = '+'
+MINUS = '-'
+PARENTHESIS = ['(',')']
 # Variable
 VARIABLE_DEFINITION_ROOT_SCOPE = 'var'
 VARIABLE_DEFINITION_NESTED_SCOPE = 'let'
@@ -21,6 +25,7 @@ DEFAULT_OPERATION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
 # Operation
 SUM_OPERATION_PARAMETER_OP = 'SUM_ARGUMENTS_OF_THE_FUNCTION'
+SUB_OPERATION_PARAMETER_OP = 'SUB_ARGUMENTS_OF_THE_FUNCTION'
 
 class Scope(object):
     pass
@@ -35,7 +40,11 @@ class ContextualToken(object):
 class ContextualSumToken(ContextualToken):
     def __init__(self):
         self.key_name = SUM
-    
+
+class ContextualSubToken(ContextualToken):
+    def __init__(self):
+        self.key_name = SUB
+
 class ContextualRule(object):
     def __init__(self):
         self.key_name = RULE
@@ -55,7 +64,7 @@ class Keyword(object):
         self.assignment_key_name = None
 
     def __str__(self):
-        return self.assigment_key_name
+        return self.assignment_key_name
     
 class RootScope(Identifier):
     def __init__(self):
@@ -83,13 +92,17 @@ class LetKeyword(object):
     def __str__(self):
         return self.assignment_key_name
 
-class SumKeyword(Identifier):
+class SumKeyword(Keyword):
     def __init__(self):
-        self.key_name = SUM
+        self.assignment_key_name = SUM
+
+class SubKeyword(Keyword):
+    def __init__(self):
+        self.assignment_key_name = SUB
 
 class PrecedenceDelimiters(object):
     def __init__(self):
-        self.assigners = ['(',')']
+        self.assigners = PARENTHESIS
 
     def __meta__(self):
         return self.assigners
@@ -121,6 +134,7 @@ class Grammar(object):
         self._nested_scope_str = NestedScope().__str__()
         self._rule_str = Rule().__str__()
         self._sum_keyword_str = SumKeyword().__str__()
+        self._sub_keyword_str = SubKeyword().__str__()
         self._variable_definition = {
             self._contextual_token_str: {
                 self._root_scope_str: VARIABLE_DEFINITION_ROOT_SCOPE,
@@ -134,10 +148,12 @@ class Grammar(object):
         }
         self._operation_definition = {
             self._contextual_token_str: {
-                self._sum_keyword_str: '+'
+                self._sum_keyword_str: PLUS,
+                self._sub_keyword_str: MINUS,
             },
             self._rule_str: {
-                self._sum_keyword_str: SUM_OPERATION_PARAMETER_OP
+                self._sum_keyword_str: SUM_OPERATION_PARAMETER_OP,
+                self._sub_keyword_str: SUB_OPERATION_PARAMETER_OP,
             }
         }
 
