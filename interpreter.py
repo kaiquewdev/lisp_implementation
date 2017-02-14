@@ -1,5 +1,13 @@
 '''List intepreter'''
 
+# Essential Representations
+TOKEN = 'token'
+SUM = 'sum'
+RULE = 'rule'
+ROOT_SCOPE = 'root_scope'
+NESTED_SCOPE = 'nested_scope'
+VAR = 'var'
+LET = 'let'
 # Variable
 VARIABLE_DEFINITION_ROOT_SCOPE = 'var'
 VARIABLE_DEFINITION_NESTED_SCOPE = 'let'
@@ -19,18 +27,18 @@ class Scope(object):
 
 class ContextualToken(object):
     def __init__(self):
-        self.key_name = 'token'
+        self.key_name = TOKEN
 
     def __str__(self):
         return self.key_name
 
 class ContextualSumToken(ContextualToken):
     def __init__(self):
-        self.key_name = 'sum'
+        self.key_name = SUM
     
 class ContextualRule(object):
     def __init__(self):
-        self.key_name = 'rule'
+        self.key_name = RULE
 
     def __str__(self):
         return self.key_name
@@ -51,38 +59,42 @@ class Keyword(object):
     
 class RootScope(Identifier):
     def __init__(self):
-        self.key_name = 'root_scope'
+        self.key_name = ROOT_SCOPE
 
 class NestedScope(Identifier):
     def __init__(self):
-        self.key_name = 'nested_scope'
+        self.key_name = NESTED_SCOPE
+
+class Rule(Identifier):
+    def __init__(self):
+        self.key_name = RULE
     
 class VarKeyword(Keyword):
     def __init__(self):
-        self.assignment_key_name = 'var'
+        self.assignment_key_name = VAR
 
     def __str__(self):
         return self.assignment_key_name
 
 class LetKeyword(object):
     def __init__(self):
-        self.assignment_key_name = 'let'
+        self.assignment_key_name = LET
 
     def __str__(self):
         return self.assignment_key_name
 
 class SumKeyword(Identifier):
     def __init__(self):
-        self.key_name = 'sum'
+        self.key_name = SUM
 
 class Variable(object):
     def __init__(self):
         self._definition = {
             ContextualToken().__str__(): {
                 RootScope().__str__(): VARIABLE_DEFINITION_ROOT_SCOPE,
-                'nested_scope': VARIABLE_DEFINITION_NESTED_SCOPE,
+                NestedScope().__str__(): VARIABLE_DEFINITION_NESTED_SCOPE,
             },
-            'rule': VARIABLE_RULE_PARAMETER_OP,
+            Rule().__str__(): VARIABLE_RULE_PARAMETER_OP,
         }
 
     def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
@@ -94,22 +106,22 @@ class Variable(object):
 class Grammar(object):
     def __init__(self):
         self._variable_definition = {
-            'token': {
-                'root_scope': VARIABLE_DEFINITION_ROOT_SCOPE,
-                'nested_scope': VARIABLE_DEFINITION_NESTED_SCOPE,
+            ContextualToken().__str__(): {
+                RootScope().__str__(): VARIABLE_DEFINITION_ROOT_SCOPE,
+                NestedScope().__str__(): VARIABLE_DEFINITION_NESTED_SCOPE,
             },
-            'rule': VARIABLE_RULE_PARAMETER_OP,
+            Rule().__str__(): VARIABLE_RULE_PARAMETER_OP,
         }
         self._precedence_definition = {
-            'token': ['(',')'],
-            'rule': PRECEDENCE_RULE_PARAMETER_OP,
+            ContextualToken().__str__(): ['(',')'],
+            Rule().__str__(): PRECEDENCE_RULE_PARAMETER_OP,
         }
         self._operation_definition = {
-            'token': {
-                'sum': '+'
+            ContextualToken().__str__(): {
+                SumKeyword().__str__(): '+'
             },
-            'rule': {
-                'sum': SUM_OPERATION_PARAMETER_OP
+            Rule().__str__(): {
+                SumKeyword().__str__(): SUM_OPERATION_PARAMETER_OP
             }
         }
 
