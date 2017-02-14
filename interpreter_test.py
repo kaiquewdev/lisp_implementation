@@ -142,6 +142,7 @@ class GrammarTest(unittest.TestCase):
         self.let_keyword_str = LetKeyword().__str__()
         self.var_keyword_str = VarKeyword().__str__()
         self.sum_keyword_str = SumKeyword().__str__()
+        self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
     def test_grammar_instantiation(self):
@@ -157,7 +158,7 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.variable_definition(),VARIABLE_RULE_PARAMETER_OP)
 
     def test_grammar_precedence_token(self):
-        self.assertEqual(self.gr.precedence(self.contextual_token_str),['(',')'])
+        self.assertEqual(self.gr.precedence(self.contextual_token_str),self.precedence_delimiters_meta)
 
     def test_grammar_precedence_rule(self):
         self.assertEqual(self.gr.precedence(self.contextual_rule_str),PRECEDENCE_RULE_PARAMETER_OP)
