@@ -18,6 +18,7 @@ from interpreter import VarKeyword
 from interpreter import LetKeyword
 from interpreter import SumKeyword
 from interpreter import SubKeyword
+from interpreter import MulKeyword
 from interpreter import PrecedenceDelimiters
 from interpreter import Variable
 from interpreter import Grammar
@@ -165,6 +166,7 @@ class GrammarTest(unittest.TestCase):
         self.var_keyword_str = VarKeyword().__str__()
         self.sum_keyword_str = SumKeyword().__str__()
         self.sub_keyword_str = SubKeyword().__str__()
+        self.mul_keyword_str = MulKeyword().__str__()
         self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
@@ -191,6 +193,7 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sum_keyword_str),SUM_OPERATION_PARAMETER_OP)
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.sub_keyword_str),'-')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sub_keyword_str),SUB_OPERATION_PARAMETER_OP)
+        self.assertEqual(self.gr.operation(self.contextual_token_str,self.mul_keyword_str),'*')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

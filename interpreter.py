@@ -4,6 +4,7 @@
 TOKEN = 'token'
 SUM = 'sum'
 SUB = 'sub'
+MUL = 'mul'
 RULE = 'rule'
 ROOT_SCOPE = 'root_scope'
 NESTED_SCOPE = 'nested_scope'
@@ -11,6 +12,7 @@ VAR = 'var'
 LET = 'let'
 PLUS = '+'
 MINUS = '-'
+ASTERISK = '*'
 PARENTHESIS = ['(',')']
 # Variable
 VARIABLE_DEFINITION_ROOT_SCOPE = 'var'
@@ -26,6 +28,7 @@ DEFAULT_ASSESMENT_UNSET_VALUE = None
 # Operation
 SUM_OPERATION_PARAMETER_OP = 'SUM_ARGUMENTS_OF_THE_FUNCTION'
 SUB_OPERATION_PARAMETER_OP = 'SUB_ARGUMENTS_OF_THE_FUNCTION'
+MUL_OPERATION_PARAMETER_OP = 'MUL_ARGUMENTS_OF_THE_FUNCTION'
 
 class Scope(object):
     pass
@@ -100,6 +103,10 @@ class SubKeyword(Keyword):
     def __init__(self):
         self.assignment_key_name = SUB
 
+class MulKeyword(Keyword):
+    def __init__(self):
+        self.assignment_key_name = MUL
+
 class PrecedenceDelimiters(object):
     def __init__(self):
         self.assigners = PARENTHESIS
@@ -135,6 +142,7 @@ class Grammar(object):
         self._rule_str = Rule().__str__()
         self._sum_keyword_str = SumKeyword().__str__()
         self._sub_keyword_str = SubKeyword().__str__()
+        self._mul_keyword_str = MulKeyword().__str__()
         self._variable_definition = {
             self._contextual_token_str: {
                 self._root_scope_str: VARIABLE_DEFINITION_ROOT_SCOPE,
@@ -150,10 +158,12 @@ class Grammar(object):
             self._contextual_token_str: {
                 self._sum_keyword_str: PLUS,
                 self._sub_keyword_str: MINUS,
+                self._mul_keyword_str: ASTERISK,
             },
             self._rule_str: {
                 self._sum_keyword_str: SUM_OPERATION_PARAMETER_OP,
                 self._sub_keyword_str: SUB_OPERATION_PARAMETER_OP,
+                self._mul_keyword_str: MUL_OPERATION_PARAMETER_OP,
             }
         }
 
