@@ -101,8 +101,8 @@ class Variable(object):
             self._rule_str: VARIABLE_RULE_PARAMETER_OP,
         }
 
-    def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
-        if kind == self._contextual_token_str:
+    def definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE,is_token=lambda k,t:k==t):
+        if is_token(kind,self._contextual_token_str):
             return self._definition[kind][assesment or DEFAULT_VARIABLE_ASSESMENT]
         else:
             return self._definition[kind]
