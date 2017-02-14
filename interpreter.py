@@ -109,23 +109,28 @@ class Variable(object):
 
 class Grammar(object):
     def __init__(self):
+        self._contextual_token_str = ContextualToken().__str__()
+        self._root_scope_str = RootScope().__str__()
+        self._nested_scope_str = NestedScope().__str__()
+        self._rule_str = Rule().__str__()
+        self._sum_keyword_str = SumKeyword().__str__()
         self._variable_definition = {
-            ContextualToken().__str__(): {
-                RootScope().__str__(): VARIABLE_DEFINITION_ROOT_SCOPE,
-                NestedScope().__str__(): VARIABLE_DEFINITION_NESTED_SCOPE,
+            self._contextual_token_str: {
+                self._root_scope_str: VARIABLE_DEFINITION_ROOT_SCOPE,
+                self._nested_scope_str: VARIABLE_DEFINITION_NESTED_SCOPE,
             },
-            Rule().__str__(): VARIABLE_RULE_PARAMETER_OP,
+            self._rule_str: VARIABLE_RULE_PARAMETER_OP,
         }
         self._precedence_definition = {
-            ContextualToken().__str__(): ['(',')'],
-            Rule().__str__(): PRECEDENCE_RULE_PARAMETER_OP,
+            self._contextual_token_str: ['(',')'],
+            self._rule_str: PRECEDENCE_RULE_PARAMETER_OP,
         }
         self._operation_definition = {
-            ContextualToken().__str__(): {
-                SumKeyword().__str__(): '+'
+            self._contextual_token_str: {
+                self._sum_keyword_str: '+'
             },
-            Rule().__str__(): {
-                SumKeyword().__str__(): SUM_OPERATION_PARAMETER_OP
+            self._rule_str: {
+                self._sum_keyword_str: SUM_OPERATION_PARAMETER_OP
             }
         }
 
