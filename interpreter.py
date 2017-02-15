@@ -43,10 +43,6 @@ class ContextualToken(object):
     def __str__(self):
         return self.key_name
 
-class ContextualSumToken(ContextualToken):
-    def __init__(self):
-        self.key_name = SUM
-
 class ContextualSubToken(ContextualToken):
     def __init__(self):
         self.key_name = SUB
