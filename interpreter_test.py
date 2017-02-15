@@ -7,6 +7,7 @@ from interpreter import PRECEDENCE_RULE_PARAMETER_OP
 from interpreter import SUM_OPERATION_PARAMETER_OP
 from interpreter import SUB_OPERATION_PARAMETER_OP
 from interpreter import MUL_OPERATION_PARAMETER_OP
+from interpreter import DIV_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
@@ -20,6 +21,7 @@ from interpreter import LetKeyword
 from interpreter import SumKeyword
 from interpreter import SubKeyword
 from interpreter import MulKeyword
+from interpreter import DivKeyword
 from interpreter import PrecedenceDelimiters
 from interpreter import Variable
 from interpreter import Grammar
@@ -113,6 +115,17 @@ class SumKeywordTest(unittest.TestCase):
     def test_sum_keyword_str(self):
         self.assertEqual(self.sum_keyword.__str__(),self.sum_keyword_str_expectation)
 
+class DivKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.div_keyword = DivKeyword()
+        self.div_keyword_str_expectation = DivKeyword().__str__()
+
+    def test_div_keyword_instantiation(self):
+        self.assertEqual(self.div_keyword.__class__,DivKeyword)
+
+    def test_div_keyword_str(self):
+        self.assertEqual(self.div_keyword.__str__(),self.div_keyword_str_expectation)
+
 class VariableTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token = ContextualToken()
@@ -168,6 +181,7 @@ class GrammarTest(unittest.TestCase):
         self.sum_keyword_str = SumKeyword().__str__()
         self.sub_keyword_str = SubKeyword().__str__()
         self.mul_keyword_str = MulKeyword().__str__()
+        self.div_keyword_str = DivKeyword().__str__()
         self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
@@ -196,6 +210,8 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.sub_keyword_str),SUB_OPERATION_PARAMETER_OP)
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.mul_keyword_str),'*')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.mul_keyword_str),MUL_OPERATION_PARAMETER_OP)
+        self.assertEqual(self.gr.operation(self.contextual_token_str,self.div_keyword_str),'/')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,self.div_keyword_str),DIV_OPERATION_PARAMETER_OP)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
