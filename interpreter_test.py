@@ -8,6 +8,7 @@ from interpreter import SUM_OPERATION_PARAMETER_OP
 from interpreter import SUB_OPERATION_PARAMETER_OP
 from interpreter import MUL_OPERATION_PARAMETER_OP
 from interpreter import DIV_OPERATION_PARAMETER_OP
+from interpreter import MOD_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
@@ -20,6 +21,9 @@ from interpreter import SumKeyword
 from interpreter import SubKeyword
 from interpreter import MulKeyword
 from interpreter import DivKeyword
+from interpreter import ModKeyword
+from interpreter import DefinitionKeyword
+from interpreter import Definition
 from interpreter import PrecedenceDelimiters
 from interpreter import Variable
 from interpreter import Grammar
@@ -124,6 +128,29 @@ class DivKeywordTest(unittest.TestCase):
     def test_div_keyword_str(self):
         self.assertEqual(self.div_keyword.__str__(),self.div_keyword_str_expectation)
 
+class ModKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.mod_keyword = ModKeyword()
+        self.mod_keyword_str_expectation = ModKeyword().__str__()
+
+    def test_mod_keyword_instantiation(self):
+        self.assertEqual(self.mod_keyword.__class__,ModKeyword)
+
+    def test_mod_keyword_str(self):
+        self.assertEqual(self.mod_keyword.__str__(),self.mod_keyword_str_expectation)
+
+class DefinitionKeywordTest(unittest.TestCase):
+    def setUp(self):
+        self.definition_keyword = DefinitionKeyword()
+        self.definition_keyword_str_expectation = DefinitionKeyword().__str__()
+
+    def test_definition_keyword_instantiation(self):
+        self.assertEqual(self.definition_keyword.__class__,DefinitionKeyword)
+
+    def test_definition_keyword_str(self):
+        self.assertEqual(self.definition_keyword.__str__(),self.definition_keyword_str_expectation)
+    
+
 class VariableTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token = ContextualToken()
@@ -136,6 +163,16 @@ class VariableTest(unittest.TestCase):
 
     def test_variable_token_root_scope(self):
         self.assertEqual(self.variable.definition(self.contextual_token.__str__(),self.root_scope.__str__()),self.var_keyword.__str__())
+
+class DefinitionTest(unittest.TestCase):
+    def setUp(self):
+        self.contextual_token = ContextualToken()
+        self.root_scope = RootScope()
+        self.definition_keyword = DefinitionKeyword()
+        self.definition = Definition()
+
+    def test_definition_instantiation(self):
+        self.assertEqual(self.definition.__class__,Definition)
 
 class PrecedenceDelimitersTest(unittest.TestCase):
     def setUp(self):
@@ -159,6 +196,7 @@ class GrammarTest(unittest.TestCase):
         self.sub_keyword_str = SubKeyword().__str__()
         self.mul_keyword_str = MulKeyword().__str__()
         self.div_keyword_str = DivKeyword().__str__()
+        self.mod_keyword_str = ModKeyword().__str__()
         self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
@@ -189,6 +227,9 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.mul_keyword_str),MUL_OPERATION_PARAMETER_OP)
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.div_keyword_str),'/')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.div_keyword_str),DIV_OPERATION_PARAMETER_OP)
+        self.assertEqual(self.gr.operation(self.contextual_token_str,self.mod_keyword_str),'%')
+        self.assertEqual(self.gr.operation(self.contextual_rule_str,self.mod_keyword_str),MOD_OPERATION_PARAMETER_OP)
+        
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

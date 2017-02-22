@@ -1,5 +1,4 @@
 '''List intepreter'''
-
 # Essential Representations
 TOKEN = 'token'
 SUM = 'sum'
@@ -11,27 +10,35 @@ ROOT_SCOPE = 'root_scope'
 NESTED_SCOPE = 'nested_scope'
 VAR = 'var'
 LET = 'let'
+DEF = 'def'
 PLUS = '+'
 MINUS = '-'
 ASTERISK = '*'
 DIV = '/'
+MOD = '%'
 PARENTHESIS = ['(',')']
 # Variable
 VARIABLE_DEFINITION_ROOT_SCOPE = 'var'
+FUNCTION_DEFINITION_ROOT_SCOPE = 'def'
 VARIABLE_DEFINITION_NESTED_SCOPE = 'let'
+FUNCTION_DEFINITION_NESTED_SCOPE = 'fun'
 VARIABLE_RULE_PARAMETER_OP = 'LEFT_HAND_ASSIGNMENT'
 DEFAULT_VARIABLE_KIND_RULESET = 'rule'
+DEFAULT_FUNCTION_KIND_RULESET = 'rule'
 DEFAULT_VARIABLE_ASSESMENT = 'root_scope'
 # Precedence
 PRECEDENCE_RULE_PARAMETER_OP = 'HIGH_ORDER_OPERATION'
 DEFAULT_PRECEDENCE_KIND_RULESET = 'rule'
 DEFAULT_OPERATION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
+DEFAULT_FUNCTION_ASSESMENT_UNSET_VALUE = None
 # Operation
 SUM_OPERATION_PARAMETER_OP = 'SUM_ARGUMENTS_OF_THE_FUNCTION'
 SUB_OPERATION_PARAMETER_OP = 'SUB_ARGUMENTS_OF_THE_FUNCTION'
 MUL_OPERATION_PARAMETER_OP = 'MUL_ARGUMENTS_OF_THE_FUNCTION'
 DIV_OPERATION_PARAMETER_OP = 'DIV_ARGUMENTS_OF_THE_FUNCTION'
+MOD_OPERATION_PARAMETER_OP = 'MOD_ARGUMENTS_OF_THE_FUNCTION'
+FUNCTION_RULE_PARAMETER_OP = 'DEFINE_FUNCTION'
 
 class Scope(object):
     pass
@@ -94,6 +101,13 @@ class LetKeyword(object):
     def __str__(self):
         return self.assignment_key_name
 
+class DefinitionKeyword(object):
+    def __init__(self):
+        self.assignment_key_name = DEF
+
+    def __str__(self):
+        return self.assignment_key_name
+
 class SumKeyword(Keyword):
     def __init__(self):
         self.assignment_key_name = SUM
@@ -109,6 +123,10 @@ class MulKeyword(Keyword):
 class DivKeyword(Keyword):
     def __init__(self):
         self.assignment_key_name = DIV
+
+class ModKeyword(Keyword):
+    def __init__(self):
+        self.assignment_key_name = MOD
 
 class PrecedenceDelimiters(object):
     def __init__(self):
@@ -137,6 +155,26 @@ class Variable(object):
         else:
             return self._definition[kind]
 
+class Definition(object):
+    def __init__(self):
+        self._contextual_token_str = ContextualToken().__str__()
+        self._root_scope_str = RootScope().__str__()
+        self._nested_scope_str = NestedScope().__str__()
+        self._rule_str = Rule().__str__()
+        self._definition = {
+            self._contextual_token_str: {
+                self._root_scope_str: FUNCTION_DEFINITION_ROOT_SCOPE,
+                self._nested_scope_str: FUNCTION_DEFINITION_NESTED_SCOPE,
+            },
+            self._rule_str: FUNCTION_RULE_PARAMETER_OP,
+        }
+
+    def definition(self,kind=DEFAULT_FUNCTION_KIND_RULESET,assesment=DEFAULT_FUNCTION_ASSESMENT_UNSET_VALUE,is_token=lambda k,t:k==t):
+        if is_token(kind,self._contextual_token_str):
+            return self._definition[kind][assesment or DEFAULT_FUNCTION_ASSESMENT]
+        else:
+            return self._definition[kind]
+
 class Grammar(object):
     def __init__(self):
         self._contextual_token_str = ContextualToken().__str__()
@@ -147,6 +185,7 @@ class Grammar(object):
         self._sub_keyword_str = SubKeyword().__str__()
         self._mul_keyword_str = MulKeyword().__str__()
         self._div_keyword_str = DivKeyword().__str__()
+        self._mod_keyword_str = ModKeyword().__str__()
         self._variable_definition = {
             self._contextual_token_str: {
                 self._root_scope_str: VARIABLE_DEFINITION_ROOT_SCOPE,
@@ -164,12 +203,14 @@ class Grammar(object):
                 self._sub_keyword_str: MINUS,
                 self._mul_keyword_str: ASTERISK,
                 self._div_keyword_str: DIV,
+                self._mod_keyword_str: MOD,
             },
             self._rule_str: {
                 self._sum_keyword_str: SUM_OPERATION_PARAMETER_OP,
                 self._sub_keyword_str: SUB_OPERATION_PARAMETER_OP,
                 self._mul_keyword_str: MUL_OPERATION_PARAMETER_OP,
                 self._div_keyword_str: DIV_OPERATION_PARAMETER_OP,
+                self._mod_keyword_str: MOD_OPERATION_PARAMETER_OP,
             }
         }
 
