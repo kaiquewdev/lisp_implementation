@@ -1,9 +1,0 @@
-'''Lisp interpreter test'''
-
-import unittest
-
-from interpreter import Grammar
-
-class GrammarTest(unittest.TestCase):
-    def test_grammar_instantiation(self):
-        self.assertEqual(Grammar().__class__,Grammar)
