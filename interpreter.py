@@ -30,6 +30,7 @@ DEFAULT_VARIABLE_ASSESMENT = 'root_scope'
 PRECEDENCE_RULE_PARAMETER_OP = 'HIGH_ORDER_OPERATION'
 DEFAULT_PRECEDENCE_KIND_RULESET = 'rule'
 DEFAULT_OPERATION_KIND_RULESET = 'rule'
+DEFAULT_DEFINITION_KIND_RULESET = 'rule'
 DEFAULT_ASSESMENT_UNSET_VALUE = None
 DEFAULT_FUNCTION_ASSESMENT_UNSET_VALUE = None
 # Operation
@@ -38,6 +39,7 @@ SUB_OPERATION_PARAMETER_OP = 'SUB_ARGUMENTS_OF_THE_FUNCTION'
 MUL_OPERATION_PARAMETER_OP = 'MUL_ARGUMENTS_OF_THE_FUNCTION'
 DIV_OPERATION_PARAMETER_OP = 'DIV_ARGUMENTS_OF_THE_FUNCTION'
 MOD_OPERATION_PARAMETER_OP = 'MOD_ARGUMENTS_OF_THE_FUNCTION'
+DEF_OPERATION_PARAMETER_OP = '%DEF%'
 FUNCTION_RULE_PARAMETER_OP = 'DEFINE_FUNCTION'
 
 class Scope(object):
@@ -46,6 +48,13 @@ class Scope(object):
 class ContextualToken(object):
     def __init__(self):
         self.key_name = TOKEN
+
+    def __str__(self):
+        return self.key_name
+
+class DefinitionToken(object):
+    def __init__(self):
+        self.key_name = FUNCTION_DEFINITION_ROOT_SCOPE
 
     def __str__(self):
         return self.key_name
@@ -180,6 +189,7 @@ class Grammar(object):
         self._contextual_token_str = ContextualToken().__str__()
         self._root_scope_str = RootScope().__str__()
         self._nested_scope_str = NestedScope().__str__()
+        self._definition_keyword_str = DefinitionKeyword().__str__()
         self._rule_str = Rule().__str__()
         self._sum_keyword_str = SumKeyword().__str__()
         self._sub_keyword_str = SubKeyword().__str__()
@@ -213,6 +223,14 @@ class Grammar(object):
                 self._mod_keyword_str: MOD_OPERATION_PARAMETER_OP,
             }
         }
+        self._definition_procedure = {
+            self._contextual_token_str: {
+                self._definition_keyword_str: DEF,
+            },
+            self._rule_str: {
+                self._definition_keyword_str: DEF_OPERATION_PARAMETER_OP,
+            }
+        }
 
     def variable_definition(self,kind=DEFAULT_VARIABLE_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE,variable=Variable()):
         return variable.definition(kind,assesment)
@@ -222,3 +240,6 @@ class Grammar(object):
 
     def operation(self,kind=DEFAULT_OPERATION_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
         return self._operation_definition[kind][assesment or DEFAULT_OPERATION_ASSESMENT]
+
+    def definition(self,kind=DEFAULT_DEFINITION_KIND_RULESET,assesment=DEFAULT_ASSESMENT_UNSET_VALUE):
+        return self._definition_procedure[kind][assesment or DEFAULT_DEFINITION_ASSESMENT]

@@ -1,5 +1,6 @@
 '''Lisp interpreter test'''
 
+import os
 import unittest
 
 from interpreter import VARIABLE_RULE_PARAMETER_OP
@@ -12,6 +13,7 @@ from interpreter import MOD_OPERATION_PARAMETER_OP
 
 from interpreter import Scope
 from interpreter import ContextualToken
+from interpreter import DefinitionToken
 from interpreter import ContextualRule
 from interpreter import RootScope
 from interpreter import NestedScope
@@ -45,6 +47,11 @@ class ContextualTokenTest(unittest.TestCase):
 
     def test_contextual_token_str(self):
         self.assertEqual(self.contextual_token.__str__(),self.contextual_token_str_expectation)
+
+class DefinitionTokenTest(unittest.TestCase):
+    def setUp(self):
+        self.definition_token = DefinitionToken()
+        self.definition_token_str_expectation = DefinitionToken().__str__()
 
 class ContextualRuleTest(unittest.TestCase):
     def setUp(self):
@@ -187,6 +194,7 @@ class PrecedenceDelimitersTest(unittest.TestCase):
 class GrammarTest(unittest.TestCase):
     def setUp(self):
         self.contextual_token_str = ContextualToken().__str__()
+        self.definition_token_str = DefinitionToken().__str__()
         self.root_scope_str = RootScope().__str__()
         self.contextual_rule_str = ContextualRule().__str__()
         self.nested_scope_str = NestedScope().__str__()
@@ -197,6 +205,7 @@ class GrammarTest(unittest.TestCase):
         self.mul_keyword_str = MulKeyword().__str__()
         self.div_keyword_str = DivKeyword().__str__()
         self.mod_keyword_str = ModKeyword().__str__()
+        self.definition_keyword_str = DefinitionKeyword().__str__()
         self.precedence_delimiters_meta = PrecedenceDelimiters().__meta__()
         self.gr = Grammar()
     
@@ -229,7 +238,11 @@ class GrammarTest(unittest.TestCase):
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.div_keyword_str),DIV_OPERATION_PARAMETER_OP)
         self.assertEqual(self.gr.operation(self.contextual_token_str,self.mod_keyword_str),'%')
         self.assertEqual(self.gr.operation(self.contextual_rule_str,self.mod_keyword_str),MOD_OPERATION_PARAMETER_OP)
-        
 
-if __name__ == '__main__':
+    def test_grammar_definition_token(self):
+        self.assertEqual(self.gr.definition(self.contextual_token_str,self.definition_keyword_str),'def')
+
+if __name__ == '__main__' and 'DEBUG' in os.environ and os.environ['DEBUG'] == 'true':
     unittest.main(verbosity=2)
+elif __name__ == '__main__':
+    unittest.main()
